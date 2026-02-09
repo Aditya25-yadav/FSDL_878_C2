@@ -1,0 +1,114 @@
+/* GLOBAL */
+
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #e2e8f0;
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+}
+
+.section {
+    padding: 100px 0;
+}
+
+.section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    margin-bottom: 40px;
+    color: #cbd5e1;
+}
+
+/* NAVBAR */
+
+.navbar {
+    background: rgba(15,23,42,0.9);
+}
+
+.nav-link {
+    color: #cbd5e1 !important;
+}
+
+.nav-link:hover {
+    color: #94a3b8 !important;
+}
+
+/* HERO */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: #f1f5f9;
+}
+
+.tagline {
+    font-family: 'JetBrains Mono', monospace;
+    color: #94a3b8;
+}
+
+.subtle-text {
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+.profile-img {
+    width: 75%;
+    border-radius: 20px;
+}
+
+/* CARDS */
+
+.card-custom {
+    background: rgba(30,41,59,0.7);
+    border: 1px solid rgba(148,163,184,0.2);
+    border-radius: 16px;
+    padding: 30px;
+    transition: 0.3s ease;
+}
+
+.card-custom:hover {
+    background: rgba(30,41,59,0.9);
+}
+
+.skill {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* PROJECT */
+
+.project-card {
+    background: rgba(30,41,59,0.7);
+    border: 1px solid rgba(148,163,184,0.2);
+    padding: 25px;
+    border-radius: 14px;
+    transition: 0.3s ease;
+}
+
+.project-card:hover {
+    background: rgba(30,41,59,0.9);
+}
+
+/* FOOTER */
+
+footer {
+    background: rgba(15,23,42,0.9);
+    padding: 30px;
+    color: #94a3b8;
+}
+
+.social-icons a {
+    color: #94a3b8;
+    font-size: 20px;
+    margin: 0 10px;
+}
+
+.social-icons a:hover {
+    color: #e2e8f0;
+}
