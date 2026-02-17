@@ -1,132 +1,344 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aditya Yadav | Software Engineer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aditya Yadav | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0a0a0c;
+            --accent-color: #00f2ff;
+            --text-color: #e0e0e0;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent-color));
+            width: 0%;
+            z-index: 2000;
+        }
 
-<link rel="stylesheet" href="style.css">
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: var(--transition);
+        }
+
+        .glass:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.15);
+            transform: translateY(-10px);
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: 0.3s;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 12, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 10%;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--accent-color); }
+        .nav-links { display: flex; list-style: none; }
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 2.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent-color); text-shadow: 0 0 8px var(--accent-color); }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #111116 0%, #0a0a0c 100%);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+        }
+
+        .typing-container {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            min-height: 1.6em;
+        }
+
+        .section { padding: 100px 10%; min-height: 80vh; }
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(to right, #fff, var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(0, 242, 255, 0.1);
+            color: var(--accent-color);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            margin-right: 5px;
+            margin-top: 10px;
+        }
+
+        .github-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .github-link:hover {
+            text-decoration: underline;
+            text-underline-offset: 5px;
+        }
+
+        /* CSI Layout Improvements */
+        .experience-card {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .csi-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            object-fit: contain;
+            background: white; /* Contrast for the logo */
+            padding: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .experience-card { flex-direction: column; align-items: center; text-align: center; }
+        }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1s all ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .primary { background: var(--accent-color); color: #000; }
+        .secondary { border: 1px solid var(--accent-color); color: var(--accent-color); }
+        .primary:hover { box-shadow: 0 0 20px var(--accent-color); }
+    </style>
 </head>
-
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark">
-<div class="container">
+    <div id="scroll-progress"></div>
 
-<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
-<span class="navbar-toggler-icon"></span>
-</button>
+    <nav class="navbar">
+        <div class="logo">AY<span>.</span></div>
+        <ul class="nav-links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+        </ul>
+    </nav>
 
-<div class="collapse navbar-collapse justify-content-end" id="menu">
-<ul class="navbar-nav">
-<li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-<li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
-<li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-<li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
-</ul>
-</div>
-</div>
-</nav>
+    <section id="hero" class="hero">
+        <h1 class="reveal">Aditya Yadav</h1>
+        <div class="typing-container" id="typewriter"></div>
+        <div class="hero-btns reveal" style="margin-top: 2rem;">
+            <a href="#projects" class="btn primary">View Projects</a>
+            <a href="#about" class="btn secondary">About Me</a>
+        </div>
+    </section>
 
-<!-- HERO -->
-<section class="hero text-white">
-<div class="container">
-<div class="row align-items-center">
+    <section id="about" class="section">
+        <h2 class="section-title reveal">About & Education</h2>
+        <div class="glass reveal">
+            <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">
+                Computer Science student at <strong>MIT WPU</strong> with a focus on building scalable cloud solutions and intelligent systems.
+                Maintaining a professional <strong>CGPA of 8.98/10.00</strong>.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div>
+                    <h4 style="color: var(--accent-color)">Languages</h4>
+                    <p>C++, Python, SQL, PL/SQL</p>
+                </div>
+                <div>
+                    <h4 style="color: var(--accent-color)">Tools & Cloud</h4>
+                    <p>Docker, AWS EC2, Git, Flask, Kubernetes (Basics)</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div class="col-lg-6">
-<h1>Aditya Yadav</h1>
-<p class="tagline">Backend Engineer | System Builder</p>
-<p class="mt-3 text-light">
-Computer Science student passionate about scalable systems,
-backend development and cloud engineering.
-</p>
-</div>
+    <section id="projects" class="section">
+        <h2 class="section-title reveal">Featured Projects</h2>
+        <div class="project-grid">
+            <div class="glass reveal">
+                <h3>Cloud-Based AI Resume Parser</h3>
+                <p>Developed an AI-driven system on AWS EC2 with 85% accuracy for extracting candidate information.</p>
+                <div class="tag">Python</div> <div class="tag">NLP</div> <div class="tag">AWS EC2</div> <div class="tag">Docker</div>
+                <br>
+                <a href="https://github.com/Aditya25-yadav/cloud-ai-resume-shortlisting" target="_blank" class="github-link">View Repository →</a>
+            </div>
+            <div class="glass reveal">
+                <h3>Space Debris Tracker</h3>
+                <p>Built a simulation model identifying and tracking potential orbital debris using rule-based logic.</p>
+                <div class="tag">Python</div> <div class="tag">Logic Systems</div> <div class="tag">State Graphs</div>
+                <br>
+                <a href="https://github.com/Aditya25-yadav/space-debris-tracker-" target="_blank" class="github-link">View Repository →</a>
+            </div>
+            <div class="glass reveal">
+                <h3>Complaint Management System</h3>
+                <p>Full-stack portal handling 50+ concurrent sessions with real-time status tracking via PL/SQL.</p>
+                <div class="tag">Flask</div> <div class="tag">MySQL</div> <div class="tag">PL/SQL</div>
+                <br>
+                <span class="github-link" style="opacity: 0.5;">Private Repository</span>
+            </div>
+        </div>
+    </section>
 
-<div class="col-lg-6 text-center">
-<img src="https://images.unsplash.com/photo-1607799279861-4dd421887fb3"
-class="profile-img">
-<p class="mt-3 subtle-text">
-Member – Computer Society of India (CSI)
-</p>
-</div>
+    <section id="experience" class="section">
+        <h2 class="section-title reveal">Leadership</h2>
+        <div class="glass reveal experience-card">
+            <img src="image.png" alt="CSI Logo" class="csi-img">
+            <div>
+                <h3>Computer Society of India (CSI)</h3>
+                <p style="color: var(--accent-color); margin-bottom: 1rem;">Member | MIT WPU | Aug 2023 - June 2024</p>
+                <ul style="padding-left: 20px;">
+                    <li style="margin-bottom: 10px;">Assisted in organizing tech events and coding competitions for 100+ students.</li>
+                    <li style="margin-bottom: 10px;">Mentored 20+ juniors in C++, Python, and DBMS concepts.</li>
+                    <li>Awarded for active participation and dedication to community-building.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-</div>
-</div>
-</section>
+    <footer style="text-align: center; padding: 40px; border-top: 1px solid var(--glass-border);">
+        <p>&copy; 2026 Aditya Yadav | Pune, India | +91 7666115377</p>
+    </footer>
 
-<!-- ABOUT -->
-<section id="about" class="section container">
-<h2 class="section-title">About</h2>
-<div class="card-custom">
-Strong foundation in DSA, DBMS, Operating Systems and Computer Networks.
-Focused on writing clean backend logic and building reliable systems.
-</div>
-</section>
+    <script>
+        // Typing Effect
+        const words = ["Full Stack Developer", "AI Enthusiast", "Problem Solver"];
+        let wordIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+        const typeTarget = document.getElementById("typewriter");
 
-<!-- SKILLS -->
-<section id="skills" class="section container">
-<h2 class="section-title">Skills</h2>
-<div class="row g-4">
+        function type() {
+            const currentWord = words[wordIdx];
+            if (isDeleting) {
+                typeTarget.textContent = currentWord.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                typeTarget.textContent = currentWord.substring(0, charIdx + 1);
+                charIdx++;
+            }
 
-<div class="col-md-3"><div class="card-custom skill">C++ / Python</div></div>
-<div class="col-md-3"><div class="card-custom skill">SQL / MySQL</div></div>
-<div class="col-md-3"><div class="card-custom skill">Flask / HTML / CSS</div></div>
-<div class="col-md-3"><div class="card-custom skill">Docker / AWS</div></div>
+            let typeSpeed = isDeleting ? 50 : 150;
 
-</div>
-</section>
+            if (!isDeleting && charIdx === currentWord.length) {
+                isDeleting = true;
+                typeSpeed = 2000;
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                wordIdx = (wordIdx + 1) % words.length;
+                typeSpeed = 500;
+            }
 
-<!-- PROJECTS -->
-<section id="projects" class="section container">
-<h2 class="section-title">Projects</h2>
-<div class="row g-4">
+            setTimeout(type, typeSpeed);
+        }
 
-<div class="col-md-6">
-<div class="project-card">
-<h5>Complaint Management System</h5>
-<small>Flask, MySQL, PL/SQL</small>
-</div>
-</div>
+        // Scroll Reveal
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add("active");
+                }
+            });
 
-<div class="col-md-6">
-<div class="project-card">
-<h5>AI Resume Parser</h5>
-<small>Python, NLP, AWS</small>
-</div>
-</div>
+            const nav = document.querySelector(".navbar");
+            const progress = document.getElementById("scroll-progress");
+            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / totalHeight) * 100;
+            
+            progress.style.width = scrolled + "%";
+            
+            if (window.scrollY > 50) nav.classList.add("scrolled");
+            else nav.classList.remove("scrolled");
+        }
 
-</div>
-</section>
-
-<!-- EDUCATION -->
-<section id="education" class="section container">
-<h2 class="section-title">Education</h2>
-<div class="card-custom">
-Bachelor of Computer Science<br>
-MIT World Peace University<br>
-CGPA: 8.98 / 10
-</div>
-</section>
-
-<footer class="text-center">
-<div class="social-icons mb-3">
-<a href="https://github.com/Aditya25-yadav" target="_blank">
-<i class="bi bi-github"></i>
-</a>
-<a href="https://www.linkedin.com/in/aditya-yadav-68b731289/" target="_blank">
-<i class="bi bi-linkedin"></i>
-</a>
-</div>
-© 2026 Aditya Yadav
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        window.addEventListener("scroll", reveal);
+        window.onload = () => {
+            type();
+            reveal();
+        };
+    </script>
 </body>
 </html>
